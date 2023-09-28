@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+{% block title %}Add new student {% endblock %}
+
+{% block body %}
+    <div class="container my-5">
+        <h1 class="text-center">Add new student</h1>
+
+        {{ form_start(formAddStudent) }}
+            <div class="row">
+                <div class="col-sm my-2">
+                    {{ form_row(formAddStudent.firstname) }}
+                </div>
+                <div class="col-sm my-2">
+                    {{ form_row(formAddStudent.lastname) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm my-2">
+                    {{ form_row(formAddStudent.birthDate) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm my-2">
+                    {{ form_row(formAddStudent.email) }}
+                </div>
+                <div class="col-sm my-2">
+                    {{ form_row(formAddStudent.phoneNumber) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm my-2">
+                    {{ form_row(formAddStudent.street) }}
+                </div>
+                <div class="col-sm my-2">
+                    {{ form_row(formAddStudent.city) }}
+                </div>
+                <div class="col-sm my-2">
+                    {{ form_row(formAddStudent.zipCode) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm my-2">
+                    {{ form_row(formAddStudent.sessions) }}
+                </div>
+            </div>
+            
+            {{ form_row(formAddStudent.Submit) }}
+        {{ form_end(formAddStudent) }}
+    </div>
+    
+{% endblock body %}

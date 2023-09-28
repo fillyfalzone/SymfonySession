@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block title %}Student details {% endblock %}
+
+{% block body %}
+    <div class="container text-center">
+        <h1 class="m-5">Student details</h1>
+        <div class="fs-4">
+            Name : <span class="text-primary"><a href="{{ path('app_student')}}">{{ student }}.</a></span>
+        </div>
+        
+    </div>
+    
+{% endblock body %}

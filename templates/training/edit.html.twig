@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+{% block title %}Edit training {% endblock %}
+
+{% block body %}
+    <div class="container my-5">
+        <h1 class="text-center">Edit training</h1>
+
+        {{ form_start(formEditTraining) }}
+            <div class="row">
+                <div class="col-6">
+                    {{ form_row(formEditTraining.name) }}
+                </div>
+            </div>
+            
+            {{ form_row(formEditTraining.Submit) }}
+        {{ form_end(formEditTraining) }}
+    </div>
+    
+{% endblock body %}

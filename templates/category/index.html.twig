@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Categories list{% endblock %}
+
+{% block body %}
+    
+    <div class="container ">
+        <h1 class="m-5">Categories list</h1>
+
+        <a href="{{ path('new_category')}}" class="btn btn-primary m-2 ">Add a new category</a> <br>
+
+        {% for category in Categories %}
+        
+        <a href="{{ path('show_category', {'id':category.id}) }}" class="fs-4 text-decoration-none"> {{ category.name }}</a>
+        <a href="{{ path('edit_category', {'id':category.id}) }}" class="btn btn-info m-2 ">Edit</a>
+        <a href="{{ path('delete_category', {'id':category.id}) }}" class="btn btn-danger m-2 ">Delete</a> <br>
+
+        {% endfor %}
+    </div>
+    
+
+{% endblock %}
