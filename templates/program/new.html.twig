@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add or edit Progam{% endblock %}
+
+{% block body %}
+    <div class="container">
+        {% if edit %}
+            <h1>Edit Progam</h1>
+        {% else %}
+            <h1>Add a new Progam</h1>
+        {% endif %}  
+
+        {{ form_start(formAddProgram) }}
+            {{ form_row(formAddProgram.session) }}
+            {{ form_row(formAddProgram.modules) }}
+            {{ form_row(formAddProgram.numberOfDays) }}
+            {{ form_row(formAddProgram.Submit) }}
+        {{ form_end(formAddProgram) }}
+    </div>
+    
+{% endblock body %}

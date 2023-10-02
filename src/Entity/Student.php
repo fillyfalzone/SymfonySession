@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\StudentRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Session;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\StudentRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: StudentRepository::class)]
 class Student
@@ -40,8 +41,10 @@ class Student
     #[ORM\Column(length: 20)]
     private ?string $zipCode = null;
 
-    #[ORM\ManyToMany(targetEntity: Session::class, inversedBy: 'students')]
+    #[ORM\ManyToMany(targetEntity: Session::class, mappedBy: 'students')]
     private Collection $sessions;
+
+
 
     public function __construct()
     {
@@ -149,6 +152,12 @@ class Student
         return $this;
     }
 
+
+    public function __toString()
+    {
+        return $this->lastname. ' '. $this->firstname;
+    }
+
     /**
      * @return Collection<int, Session>
      */
@@ -161,6 +170,7 @@ class Student
     {
         if (!$this->sessions->contains($session)) {
             $this->sessions->add($session);
+            $session->addStudent($this);
         }
 
         return $this;
@@ -168,13 +178,10 @@ class Student
 
     public function removeSession(Session $session): static
     {
-        $this->sessions->removeElement($session);
+        if ($this->sessions->removeElement($session)) {
+            $session->removeStudent($this);
+        }
 
         return $this;
-    }
-
-    public function __toString()
-    {
-        return $this->lastname. ' '. $this->firstname;
     }
 }

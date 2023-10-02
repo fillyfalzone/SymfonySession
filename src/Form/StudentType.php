@@ -42,11 +42,6 @@ class StudentType extends AbstractType
             ->add('zipCode', TextType::class, [
                 'attr' => ['class' => 'form-control']
             ])
-            ->add('sessions', EntityType::class, [
-                'class' => Session::class,
-                'placeholder' => 'Please select session',
-                'attr' => ['class' => 'form-control']
-                ])
             ->add('Submit', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-success']
                 ])

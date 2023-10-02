@@ -16,36 +16,20 @@ class SessionController extends AbstractController
     #[Route('/session', name: 'app_session')]
     public function index(SessionRepository $sessionRepository): Response
     {   
+        $sessios = $sessionRepository->findBy([], ['startDate' => 'ASC']);
 
         return $this->render('session/index.html.twig', [
-            
+            'sessions' => $sessios
         ]);
     }
 
     #[Route('/session/new', name: 'new_session')]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(SessionType::class);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $session = $form->getData();
-            $entityManager->persist($session);
-            $entityManager->flush();
-            return $this->redirectToRoute('app_session');
-        }
-
-        return $this->render('session/new.html.twig', [
-            'formAddSession' => $form->createView()
-        ]);
-    }
-
-
     #[Route('/session/{id}/edit', name: 'edit_session')]
-    public function edit(Request $request, Session $session = null, EntityManagerInterface $entityManager) : Response
+    public function new_edit(Request $request, Session $session = null, EntityManagerInterface $entityManager) : Response
     {
-
+        if(!$session){
+            $session = new Session(); 
+        }
         $form = $this->createForm(SessionType::class,$session);
 
         $form->handleRequest($request);
@@ -59,8 +43,9 @@ class SessionController extends AbstractController
             return $this->redirectToRoute('app_session');
         }
 
-        return $this->render('session/edit.html.twig',[
-            'formEditSessionForm' => $form
+        return $this->render('session/new.html.twig',[
+            'form' => $form,
+            'sessionId' => $session->getId()
         ]);
     }
 

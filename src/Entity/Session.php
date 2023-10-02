@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\SessionRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Student;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\SessionRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: SessionRepository::class)]
 class Session
@@ -26,22 +27,24 @@ class Session
     private ?\DateTimeInterface $endDate = null;
 
     #[ORM\Column]
-    private ?int $numbetOfPlaces = null;
+    private ?int $numberOfPlaces = null;
 
     #[ORM\ManyToOne(inversedBy: 'sessions')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Training $training = null;
 
-    #[ORM\ManyToMany(targetEntity: Student::class, mappedBy: 'sessions')]
-    private Collection $students;
-
-    #[ORM\OneToMany(mappedBy: 'session', targetEntity: Program::class)]
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: Program::class, cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\OrderBy(['modules' => 'ASC'])]
     private Collection $programs;
+
+    #[ORM\ManyToMany(targetEntity: Student::class, inversedBy: 'sessions')]
+    private Collection $students;
 
     public function __construct()
     {
-        $this->students = new ArrayCollection();
+
         $this->programs = new ArrayCollection();
+        $this->students = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -85,14 +88,14 @@ class Session
         return $this;
     }
 
-    public function getNumbetOfPlaces(): ?int
+    public function getNumberOfPlaces(): ?int
     {
-        return $this->numbetOfPlaces;
+        return $this->numberOfPlaces;
     }
 
-    public function setNumbetOfPlaces(int $numbetOfPlaces): static
+    public function setNumberOfPlaces(int $numberOfPlaces): static
     {
-        $this->numbetOfPlaces = $numbetOfPlaces;
+        $this->numberOfPlaces = $numberOfPlaces;
 
         return $this;
     }
@@ -109,32 +112,6 @@ class Session
         return $this;
     }
 
-    /**
-     * @return Collection<int, Student>
-     */
-    public function getStudents(): Collection
-    {
-        return $this->students;
-    }
-
-    public function addStudent(Student $student): static
-    {
-        if (!$this->students->contains($student)) {
-            $this->students->add($student);
-            $student->addSession($this);
-        }
-
-        return $this;
-    }
-
-    public function removeStudent(Student $student): static
-    {
-        if ($this->students->removeElement($student)) {
-            $student->removeSession($this);
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Program>
@@ -169,5 +146,29 @@ class Session
     public function __toString()
     {
         return $this->name;
+    }
+
+    /**
+     * @return Collection<int, Student>
+     */
+    public function getStudents(): Collection
+    {
+        return $this->students;
+    }
+
+    public function addStudent(Student $student): static
+    {
+        if (!$this->students->contains($student)) {
+            $this->students->add($student);
+        }
+
+        return $this;
+    }
+
+    public function removeStudent(Student $student): static
+    {
+        $this->students->removeElement($student);
+
+        return $this;
     }
 }

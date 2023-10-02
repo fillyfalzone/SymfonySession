@@ -17,9 +17,10 @@ class StudentController extends AbstractController
     #[Route('/student', name: 'app_student')]
     public function index(StudentRepository $studentRepository): Response
     {   
+        $students = $studentRepository->findBy([], ['lastname' => 'ASC']);
 
         return $this->render('student/index.html.twig', [
-            
+            'students' => $students
         ]);
     }
 
@@ -32,6 +33,8 @@ class StudentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $student = $form->getData();
+
+        
             $entityManager->persist($student);
             $entityManager->flush();
             return $this->redirectToRoute('app_student');
@@ -47,7 +50,7 @@ class StudentController extends AbstractController
     public function edit(Request $request, Student $student = null, EntityManagerInterface $entityManager) : Response
     {
 
-        $form = $this->createForm(StudentType::class,$student);
+        $form = $this->createForm(StudentType::class, $student);
 
         $form->handleRequest($request);
 
@@ -61,7 +64,7 @@ class StudentController extends AbstractController
         }
 
         return $this->render('student/edit.html.twig',[
-            'formEditStudentForm' => $form
+            'formEditStudent' => $form
         ]);
     }
 
