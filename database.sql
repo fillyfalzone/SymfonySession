@@ -26,11 +26,11 @@ CREATE TABLE IF NOT EXISTS `category` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table symfonysession.category : ~4 rows (environ)
+-- Listage des données de la table symfonysession.category : ~5 rows (environ)
 INSERT INTO `category` (`id`, `name`) VALUES
 	(1, 'Infographie'),
 	(2, 'Bureautique'),
-	(3, 'Back-End 3'),
+	(3, 'Back-End'),
 	(5, 'Projet'),
 	(6, 'Front-End'),
 	(7, 'Démarche');
@@ -72,9 +72,9 @@ CREATE TABLE IF NOT EXISTS `module` (
   PRIMARY KEY (`id`),
   KEY `IDX_C24262812469DE2` (`category_id`),
   CONSTRAINT `FK_C24262812469DE2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table symfonysession.module : ~2 rows (environ)
+-- Listage des données de la table symfonysession.module : ~8 rows (environ)
 INSERT INTO `module` (`id`, `category_id`, `name`) VALUES
 	(1, 2, 'Word'),
 	(3, 3, 'PHP'),
@@ -85,7 +85,11 @@ INSERT INTO `module` (`id`, `category_id`, `name`) VALUES
 	(8, 1, 'Photoshop'),
 	(9, 7, 'Recherche de Stage'),
 	(10, 7, 'Rédiger un CV'),
-	(11, 3, 'Symfony');
+	(11, 3, 'Symfony'),
+	(12, 3, 'Python'),
+	(13, 3, 'Java'),
+	(14, 6, 'Bootstrap'),
+	(15, 1, 'Adobe XD');
 
 -- Listage de la structure de table symfonysession. program
 CREATE TABLE IF NOT EXISTS `program` (
@@ -98,14 +102,17 @@ CREATE TABLE IF NOT EXISTS `program` (
   KEY `IDX_92ED778460D6DC42` (`modules_id`),
   CONSTRAINT `FK_92ED778460D6DC42` FOREIGN KEY (`modules_id`) REFERENCES `module` (`id`),
   CONSTRAINT `FK_92ED7784613FECDF` FOREIGN KEY (`session_id`) REFERENCES `session` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table symfonysession.program : ~2 rows (environ)
+-- Listage des données de la table symfonysession.program : ~4 rows (environ)
 INSERT INTO `program` (`id`, `session_id`, `modules_id`, `number_of_days`) VALUES
-	(1, 3, 1, 13),
 	(3, 2, 3, 8),
 	(4, 4, 3, 5),
-	(5, 4, 1, 3);
+	(5, 4, 1, 3),
+	(18, 9, 6, 5),
+	(19, 9, 12, 11),
+	(20, 9, 10, 1),
+	(21, 9, 9, 15);
 
 -- Listage de la structure de table symfonysession. session
 CREATE TABLE IF NOT EXISTS `session` (
@@ -118,13 +125,13 @@ CREATE TABLE IF NOT EXISTS `session` (
   PRIMARY KEY (`id`),
   KEY `IDX_D044D5D4BEFD98D1` (`training_id`),
   CONSTRAINT `FK_D044D5D4BEFD98D1` FOREIGN KEY (`training_id`) REFERENCES `training` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table symfonysession.session : ~3 rows (environ)
+-- Listage des données de la table symfonysession.session : ~2 rows (environ)
 INSERT INTO `session` (`id`, `training_id`, `name`, `start_date`, `end_date`, `number_of_places`) VALUES
 	(2, 1, 'Mulhouse DWMW5', '2023-05-12 00:00:00', '2023-05-20 00:00:00', 15),
-	(3, 2, 'Colmar Sécrétaire', '2023-01-20 15:01:38', '2023-02-25 15:01:50', 8),
-	(4, 1, 'Metz Général', '2023-09-21 00:00:00', '2023-10-11 00:00:00', 10);
+	(4, 1, 'Metz Général', '2023-09-21 00:00:00', '2023-10-11 00:00:00', 10),
+	(9, 7, 'Data science MULHOUSE DS1', '2023-10-17 00:00:00', '2023-10-24 00:00:00', 13);
 
 -- Listage de la structure de table symfonysession. session_student
 CREATE TABLE IF NOT EXISTS `session_student` (
@@ -137,7 +144,15 @@ CREATE TABLE IF NOT EXISTS `session_student` (
   CONSTRAINT `FK_A5FB2D69CB944F1A` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table symfonysession.session_student : ~0 rows (environ)
+-- Listage des données de la table symfonysession.session_student : ~1 rows (environ)
+INSERT INTO `session_student` (`session_id`, `student_id`) VALUES
+	(2, 1),
+	(9, 3),
+	(9, 4),
+	(9, 6),
+	(9, 10),
+	(9, 16),
+	(9, 20);
 
 -- Listage de la structure de table symfonysession. student
 CREATE TABLE IF NOT EXISTS `student` (
@@ -151,24 +166,47 @@ CREATE TABLE IF NOT EXISTS `student` (
   `city` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `zip_code` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table symfonysession.student : ~2 rows (environ)
+-- Listage des données de la table symfonysession.student : ~21 rows (environ)
 INSERT INTO `student` (`id`, `lastname`, `firstname`, `birth_date`, `email`, `phone_number`, `street`, `city`, `zip_code`) VALUES
 	(1, 'Dubois', 'Pierre', '2000-08-29', 'dubois.pierre@session.com', '0712202556', '5 rue des fleurs', 'STRASBOURG', '67000'),
-	(2, 'KAMENI', 'ARNAUD', '1993-02-22', 'arnaud.kameni@gmail.com', '0778103168', '2 bis rue de la prévoyance', 'GAGNY', '93220');
+	(3, 'Doe', 'John', '1995-05-18', 'doe.john@session.com', '0520351475', '2 rue des étoiles', 'Paris', '75018'),
+	(4, 'Smith', 'Emily', '1990-09-25', 'smith.emily@session.com', '0712345678', '123 Main Street', 'New York', '10001'),
+	(5, 'Johnson', 'Michael', '1988-03-12', 'johnson.michael@session.com', '0432109876', '456 Elm Avenue', 'Los Angeles', '90002'),
+	(6, 'Brown', 'Sarah', '1992-11-30', 'brown.sarah@session.com', '0912345678', '789 Oak Lane', 'Chicago', '60603'),
+	(7, 'Williams', 'David', '1997-07-08', 'williams.david@session.com', '0611112222', '101 Pine Road', 'Houston', '77001'),
+	(8, 'Jones', 'Jessica', '1993-02-15', 'jones.jessica@session.com', '0755555555', '222 Cedar Street', 'Phoenix', '85001'),
+	(9, 'Anderson', 'Jennifer', '1985-12-01', 'anderson.jennifer@session.com', '0322222222', '333 Birch Drive', 'San Antonio', '78201'),
+	(10, 'Martinez', 'Robert', '1990-04-27', 'martinez.robert@session.com', '0543210987', '444 Maple Lane', 'San Diego', '92101'),
+	(11, 'Davis', 'Michelle', '1994-06-14', 'davis.michelle@session.com', '0987654321', '555 Oak Street', 'Philadelphia', '19101'),
+	(12, 'Garcia', 'Christopher', '1989-08-03', 'garcia.christopher@session.com', '0666666666', '666 Pine Road', 'San Francisco', '94101'),
+	(13, 'Rodriguez', 'Linda', '1996-01-20', 'rodriguez.linda@session.com', '0865432109', '777 Elm Avenue', 'Seattle', '98101'),
+	(14, 'Wilson', 'James', '1987-10-10', 'wilson.james@session.com', '0777777777', '888 Cedar Street', 'Miami', '33101'),
+	(15, 'Smith', 'Amanda', '1991-09-05', 'smith.amanda@session.com', '0999999999', '999 Oak Lane', 'Dallas', '75201'),
+	(16, 'Johnson', 'Matthew', '1998-03-28', 'johnson.matthew@session.com', '0355555555', '111 Pine Road', 'Denver', '80201'),
+	(17, 'Brown', 'Karen', '1992-04-15', 'brown.karen@session.com', '0123456789', '444 Birch Drive', 'Atlanta', '30301'),
+	(18, 'Williams', 'Daniel', '1995-12-09', 'williams.daniel@session.com', '0577777777', '555 Maple Lane', 'Boston', '02201'),
+	(19, 'Jones', 'Lisa', '1986-06-22', 'jones.lisa@session.com', '0412345678', '666 Oak Street', 'Austin', '73301'),
+	(20, 'Taylor', 'William', '1984-07-07', 'taylor.william@session.com', '0101010101', '777 Cedar Street', 'Portland', '97201'),
+	(21, 'Miller', 'Jennifer', '1993-05-18', 'miller.jennifer@session.com', '0876543210', '888 Elm Avenue', 'Detroit', '48201'),
+	(22, 'Davis', 'Daniel', '1988-09-30', 'davis.daniel@session.com', '0444444444', '123 Oak Lane', 'Raleigh', '27601');
 
 -- Listage de la structure de table symfonysession. training
 CREATE TABLE IF NOT EXISTS `training` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table symfonysession.training : ~2 rows (environ)
 INSERT INTO `training` (`id`, `name`) VALUES
 	(1, 'Développeur Web / Mobile Web'),
-	(2, 'Assistant(e) de direction');
+	(5, 'Front-End Developper'),
+	(6, 'Designer'),
+	(7, 'Data science'),
+	(8, 'Cyber security'),
+	(9, 'Secretary');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
