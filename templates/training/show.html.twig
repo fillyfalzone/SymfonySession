@@ -31,8 +31,8 @@
                     <td>{{ session.numberOfPlaces }}</td>
                     <td>Column content</td>
                     <td>Column content</td>
-                    <td><a href="{{ path('edit_session', {'id':session.id}) }}" class="btn btn-info m-2">Edit</a></td>
-                    <td><a href="{{ path('delete_session', {'id':session.id}) }}" class="btn btn-danger m-2">Delete</a></td>
+                    <td><a href="{{ path('edit_session', {'id':session.id}) }}" class="btn btn-info px-3 rounded-pill">Edit</a></td>
+                    <td><a href="{{ path('delete_session', {'id':session.id}) }}" class="btn btn-danger px-3 rounded-pill">Delete</a></td>
                 </tr>
             {% endfor %}
             </tbody>

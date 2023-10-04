@@ -23,11 +23,14 @@ class ModuleController extends AbstractController
         ]);
     }
 
+    #[Route('/module/{id}/edit', name: 'edit_module')]
     #[Route('/module/new', name: 'new_module')]
     public function new(Module $module = null, Request $Request, EntityManagerInterface $entityManager ): Response
     {   
         // Create a new module object
-        $module = new Module();
+        if(!$module){
+            $module = new Module();
+        }
 
         // Create form by ModuleType to add new module 
         $form = $this->createForm(ModuleType::class, $module);
@@ -47,36 +50,13 @@ class ModuleController extends AbstractController
             return $this->redirectToRoute('app_module');
         }
         
-        return $this->render('module/new.html.twig', [
-            'formAddModule' => $form
+        return $this->render('module/new_edit.html.twig', [
+            'form' => $form,
+            'moduleId' => $module->getId()
         ]);
     }
 
-    #[Route('/module/{id}/edit', name: 'edit_module')]
-    public function edit(Module $module = null, Request $Request, EntityManagerInterface $entityManager ): Response
-    {   
-        // Create form by ModuleType to add new module 
-        $form = $this->createForm(ModuleType::class, $module);
-        // manage form in relation with de enter request 
-        $form->handleRequest($Request);
-
-        // If form is successful submit and valid 
-        if ($form->isSubmitted() && $form->isValid()){
-
-            // get form data and put it into $module
-            $module = $form->getData();
-            //prepare 
-            $entityManager->persist($module);
-            // execute 
-            $entityManager->flush();
-            // redirect to module list page
-            return $this->redirectToRoute('app_module');
-        }
-        
-        return $this->render('/module/edit.html.twig', [
-            'formEditModule' => $form
-        ]);
-    }
+    
 
     #[Route('/module/{id}/delete', name: 'delete_module')]
     public function delete(Module $module, EntityManagerInterface $entityManager) : Response 

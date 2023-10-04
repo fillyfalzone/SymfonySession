@@ -5,8 +5,9 @@
 
 {% block body %}
     <section class="container pt-5">
-        <h1 class="text-center">Excellence Training</h1>
+        <h1 class="text-center text-danger ">Excellence Training</h1>
         <p class="text-center">welcome to Excellence formation, the school that guarantees you success</p>
+        <h2 class="text-primary">Ours Trainings</h2>
         <div class="d-flex justify-content-around py-5  px-1 flex-wrap gap-4">
             {% for training in trainings %}
                 <a href="{{ path('show_training', {'id':training.id})}}"><span class="badge bg-primary fs-4 ">{{training.name}}</span></a>

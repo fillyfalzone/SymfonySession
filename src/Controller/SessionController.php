@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Session;
+use App\Entity\Student;
 use App\Form\SessionType;
 use App\Repository\SessionRepository;
+use App\Repository\StudentRepository;
 use App\Repository\TrainingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,10 +19,10 @@ class SessionController extends AbstractController
     #[Route('/session', name: 'app_session')]
     public function index(SessionRepository $sessionRepository): Response
     {   
-        $sessios = $sessionRepository->findBy([], ['startDate' => 'ASC']);
+        $sessions = $sessionRepository->findBy([], ['startDate' => 'ASC']);
 
         return $this->render('session/index.html.twig', [
-            'sessions' => $sessios
+            'sessions' => $sessions
         ]);
     }
 
@@ -47,7 +49,7 @@ class SessionController extends AbstractController
             $entityManager->persist($session);
             $entityManager->flush();
 
-            return $this->redirectToRoute('show_training', ['id' => $id]);
+            return $this->redirectToRoute('show_training', ['id' => $trainingId]);
         }
 
         return $this->render('session/new_edit.html.twig',[
@@ -69,10 +71,18 @@ class SessionController extends AbstractController
     }
 
     #[Route('/session/{id}', name: 'show_session')]
-    public function show(Session $session) : Response
-    {
+    public function show($id,Session $session, SessionRepository $sessionRepository) : Response
+    {   
+        $session = $sessionRepository->find($id);
+        $students = $session->getStudents(); 
+    
+       
+
         return $this->render('session/show.html.twig', [
             'session' => $session,
+            'students' => $students,
         ]);
     }
+
+   
 }

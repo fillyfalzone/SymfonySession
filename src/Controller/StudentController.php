@@ -24,10 +24,16 @@ class StudentController extends AbstractController
         ]);
     }
 
+    #[Route('/student/{id}/edit', name: 'edit_student')]
     #[Route('/student/new', name: 'new_student')]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(StudentType::class);
+    public function new_edit(Student $student = null, Request $request,EntityManagerInterface $entityManager): Response
+    {   
+        if(empty($student)) {
+
+            $student = new Student();
+        }
+
+        $form = $this->createForm(StudentType::class, $student);
 
         $form->handleRequest($request);
 
@@ -40,31 +46,9 @@ class StudentController extends AbstractController
             return $this->redirectToRoute('app_student');
         }
 
-        return $this->render('student/new.html.twig', [
-            'formAddStudent' => $form->createView()
-        ]);
-    }
-
-
-    #[Route('/student/{id}/edit', name: 'edit_student')]
-    public function edit(Request $request, Student $student = null, EntityManagerInterface $entityManager) : Response
-    {
-
-        $form = $this->createForm(StudentType::class, $student);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $student = $form->getData();
-
-            $entityManager->persist($student);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_student');
-        }
-
-        return $this->render('student/edit.html.twig',[
-            'formEditStudent' => $form
+        return $this->render('student/new_edit.html.twig', [
+            'form' => $form,
+            'studentId' => $student->getId()
         ]);
     }
 
@@ -80,8 +64,23 @@ class StudentController extends AbstractController
     #[Route('/student/{id}', name: 'show_student')]
     public function show(Student $student) : Response
     {
+        $sessions = $student->getSessions();
+
+        $age = $this->calculateAge($student->getBirthDate());
+
+        
         return $this->render('student/show.html.twig', [
             'student' => $student,
+            'sessions' => $sessions,
+            'age' => $age
         ]);
+    }
+
+    public function calculateAge($birthDate)
+    {
+        $now = new \DateTime();
+        $age = $now->diff($birthDate)->format('%Y');
+
+        return $age;
     }
 }

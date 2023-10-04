@@ -4,16 +4,30 @@
 
 {% block body %}
     <div class="container">
-        <h1>Modules list</h1>
+        <h1 class="my-4">Modules list</h1>
 
-        <a href="{{ path('new_module')}}" class="btn btn-success m-2">Add a new module</a> <br>
+        <a href="{{ path('new_module')}}" class="btn btn-success m-2 rounded-pill">Add a new module</a> <br>
 
-        {% for module in modules %}
-
-            <a href="{{ path('show_module', {'id':module.id}) }}" class="fs-4" >{{ module.name }}</a>
-            <a href="{{ path('edit_module',  {'id':module.id}) }}" class="btn btn-info m-2">Edit</a>
-            <a href="{{ path('delete_module',  {'id':module.id}) }}" class="btn btn-danger m-2">Delete</a> <br>
-            
-        {% endfor %}
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-primary">
+                <th scope="col">#</th>
+                <th scope="col">Modules</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for module in modules %}
+                <tr class="table-light">
+                <th scope="row">{{ loop.index}}</th>
+                <td><a href="{{ path('show_module', {'id':module.id}) }}" class="fs-4" >{{ module.name }}</a></td>
+                <td> <a href="{{ path('edit_module',  {'id':module.id}) }}" class="btn btn-info px-2 rounded-pill">Edit</a></td>
+                <td><a href="{{ path('delete_module',  {'id':module.id}) }}" class="btn btn-danger px-2 rounded-pill">Delete</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    
     </div>
 {% endblock %}

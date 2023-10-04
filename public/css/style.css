@@ -25,3 +25,22 @@ header {
     height: 150px; /* Hauteur de la bannière */
 }
 
+
+/*Student styling*/
+
+/*student index.html.twig*/
+.student-details{
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background: url(../img/details.png) center center / cover no-repeat;
+}
+
+/*Student Card*/
+.title-card::before{
+    display: inline-block;
+    content: "";
+    width: 30px;
+    height: 30px;
+    background: url(../img/avatar.png) center center / cover no-repeat;
+}

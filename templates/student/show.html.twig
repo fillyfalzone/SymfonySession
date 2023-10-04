@@ -2,12 +2,30 @@
 {% block title %}Student details {% endblock %}
 
 {% block body %}
-    <div class="container text-center">
-        <h1 class="m-5">Student details</h1>
-        <div class="fs-4">
-            Name : <span class="text-primary"><a href="{{ path('app_student')}}">{{ student }}.</a></span>
-        </div>
-        
+    <div class="container">
+        <div> 
+            <div class="card text-white bg-primary my-5 mx-auto rounded" style="max-width: 30rem;">
+                <div class="card-header"><h1 class="fw-bold title-card">Trainee file </h1></div>
+                <div class="card-body">
+                    <h2 class="card-title text-secondary fw-bold">{{ student.firstname }} {{ student.lastname }}</h2>
+
+                    <p><span class="fw-bold">Date of birth :</span> {{ student.birthDate|date("m/d/Y") }} ( {{ age }} yo)</p>
+                    <p><span class="fw-bold">Email :</span> {{ student.email }} </p>
+                    <p><span class="fw-bold">Address :</span> {{ student.street }} </p>
+                    <p><span class="fw-bold">City :</span> {{ student.city }} </p>
+                    <p><span class="fw-bold">Zip code :</span> {{ student.zipCode }} </p>
+
+                    <h2 class="card-title text-secondary fw-bold">Scheduled session</h2>
+                    
+                    <ul>
+                        {% for session in sessions %}
+                            <li> <span class="fw-bold">{{session.name}}</span> (du {{ session.startDate|date("m/d/Y") }} au {{ session.endDate|date("m/d/Y") }}) </li>   
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+        </div> 
     </div>
     
 {% endblock body %}

@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {% endblock title %}
+
+{% block body %}
+  
+    <div class="container">
+        
+        <h1>Students list </h1>  
+        <div class="border border-2 border-primary rounded p-3 m-5">
+            {{ form_start(form) }}
+                {# J'ai utilisé une boucle sur l'elemenet du formulaire et mis dans un div pour forcé le passage à la ligne de chaîne entité #}
+                {% for student in form.students %}
+                    <div>
+                        {{ form_widget(student) }} {# permet d'afficher la checkbox #}
+                        {{ form_label(student) }} {# permet d'afficher le l'entité #}
+                    </div>
+                {% endfor %}
+
+                {{form_row(form.Submit)}}
+
+            {{ form_end(form) }}
+
+        </div>
+    </div>
+   
+</form>
+
+{% endblock body %}

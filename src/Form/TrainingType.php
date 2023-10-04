@@ -18,7 +18,7 @@ class TrainingType extends AbstractType
                 'attr' => ['class' => 'form-control']
             ])
             ->add('Submit', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-success m-2']
+                'attr' => ['class' => 'btn btn-success px-5 rounded-pill m-3']
             ])
         ;
     }

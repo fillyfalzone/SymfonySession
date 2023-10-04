@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% if moduleId %}
+        Edit module  
+    {% else %}
+        Add new module
+    {% endif %}Add new module 
+{% endblock %}
+
+{% block body %}
+    <div class="container my-5">
+        {% if moduleId %}
+            <h1 class="text-center">Edit module</h1>   
+        {% else %}
+            <h1 class="text-center">Add new module</h1>
+        {% endif %}
+
+        {{ form_start(form) }}
+            <div class="row">
+                <div class="col-6">
+                    {{ form_row(form.name) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    {{ form_row(form.category) }}
+                </div>
+            </div>
+            
+            {{ form_row(form.Submit) }}
+        {{ form_end(form) }}
+    </div>
+    
+{% endblock body %}

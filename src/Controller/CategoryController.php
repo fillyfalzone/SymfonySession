@@ -24,13 +24,15 @@ class CategoryController extends AbstractController
     }
 
     
-
+    #[Route('/category/{id}/edit', name: 'edit_category')]
     #[Route('/category/new', name: 'new_category')]
-    public function new(Category $category = null, Request $Request, EntityManagerInterface $entityManager ): Response
+    public function new_edit(Category $category = null, Request $Request, EntityManagerInterface $entityManager ): Response
     {   
         // Create a new category object
-        $category = new Category();
-
+        if(!$category) {
+            $category = new Category();
+        }
+        
         // Create form by CategoryType to add new category 
         $form = $this->createForm(CategoryType::class, $category);
         // manage form in relation with de enter request 
@@ -49,12 +51,13 @@ class CategoryController extends AbstractController
             return $this->redirectToRoute('app_category');
         }
         
-        return $this->render('category/new.html.twig', [
-            'formAddCategory' => $form
+        return $this->render('category/new_edit.html.twig', [
+            'form' => $form,
+            'categoryId' => $category->getId()
         ]);
     }
 
-    #[Route('/category/{id}/edit', name: 'edit_category')]
+    
     public function edit(Category $category = null, Request $Request, EntityManagerInterface $entityManager) : Response
     {   
         // Create form by CategoryType to add new category 

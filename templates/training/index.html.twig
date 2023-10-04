@@ -6,12 +6,27 @@
     <div class="container my-5">
         <h1>Trainings list</h1>
 
-        <a href="{{ path('new_training')}}" class="btn btn-success m-2"> Add a new training</a> <br>
+        <a href="{{ path('new_training')}}" class="btn btn-success m-3 rounded-pill"> Add a new training</a> <br>
 
-        {% for training in trainings %}
-           <a href="{{ path('show_training', {'id':training.id}) }}">{{ training.name }}</a>
-           <a href="{{ path('edit_training', {'id':training.id}) }}" class="btn btn-info m-2"> Edit</a>  
-           <a href="{{ path('delete_training', {'id':training.id}) }}" class="btn btn-danger m-2">Delete</a>  <br>
-        {% endfor %}
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-primary">
+                <th scope="col">#</th>
+                <th scope="col">Training</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for training in trainings %}
+                <tr class="table-light">
+                <th scope="row">{{ loop.index}}</th>
+                <td> <a href="{{ path('show_training', {'id':training.id}) }}">{{ training.name }}</a></td>
+                <td>  <a href="{{ path('edit_training', {'id':training.id}) }}" class="btn btn-info px-2 rounded-pill"> Edit</a></td>
+                <td><a href="{{ path('delete_training', {'id':training.id}) }}" class="btn btn-danger px-2 rounded-pill">Delete</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}

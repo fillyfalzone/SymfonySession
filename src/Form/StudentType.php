@@ -2,11 +2,10 @@
 
 namespace App\Form;
 
-use App\Entity\Session;
+
 use App\Entity\Student;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -43,7 +42,7 @@ class StudentType extends AbstractType
                 'attr' => ['class' => 'form-control']
             ])
             ->add('Submit', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-success']
+                'attr' => ['class' => 'btn btn-success px-5 rounded-pill']
                 ])
         ;
     }

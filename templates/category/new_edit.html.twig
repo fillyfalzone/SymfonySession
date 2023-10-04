@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} 
+    {% if categoryId %}
+        Edit category
+    {% else %}
+        Add new category
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    <div class="container my-5">
+
+        {% if categoryId %}
+            <h1 class="text-center">Edit category</h1>
+        {% else %}
+            <h1 class="text-center">Add new category</h1>
+        {% endif %}
+
+
+        {{ form_start(form) }}
+            <div class="row">
+                <div class="col-6">
+                    {{ form_row(form.name) }}
+                </div>
+            </div>
+            
+            {{ form_row(form.Submit) }}
+        {{ form_end(form) }}
+    </div>
+    
+{% endblock body %}

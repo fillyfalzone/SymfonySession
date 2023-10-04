@@ -5,17 +5,30 @@
 {% block body %}
     
     <div class="container ">
-        <h1 class="m-5">Categories list</h1>
+        <h1 class="my-5">Categories list</h1>
 
-        <a href="{{ path('new_category')}}" class="btn btn-primary m-2 ">Add a new category</a> <br>
+        <a href="{{ path('new_category')}}" class="btn btn-primary my-3 rounded-pill">Add a new category</a> <br>
 
-        {% for category in Categories %}
-        
-        <a href="{{ path('show_category', {'id':category.id}) }}" class="fs-4 text-decoration-none"> {{ category.name }}</a>
-        <a href="{{ path('edit_category', {'id':category.id}) }}" class="btn btn-info m-2 ">Edit</a>
-        <a href="{{ path('delete_category', {'id':category.id}) }}" class="btn btn-danger m-2 ">Delete</a> <br>
-
-        {% endfor %}
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-primary">
+                <th scope="col">#</th>
+                <th scope="col">Categories</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for category in Categories %}
+                <tr class="table-light">
+                <th scope="row">{{ loop.index}}</th>
+                <td> <a href="{{ path('show_category', {'id':category.id}) }} ">{{ category.name }}</a></td>
+                <td>  <a href="{{ path('edit_category', {'id':category.id}) }}" class="btn btn-info px-3 rounded-pill"> Edit</a></td>
+                <td><a href="{{ path('delete_category', {'id':category.id}) }}" class="btn btn-danger px-3 rounded-pill">Delete</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
     
 

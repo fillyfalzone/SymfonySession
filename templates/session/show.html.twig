@@ -2,17 +2,69 @@
 {% block title %}Session details {% endblock %}
 
 {% block body %}
-    <div class="container text-center">
-        <h1 class="m-5">Session details</h1>
-        <div class="fs-4">
-            Title : <span class="text-primary">{{ session.name }}.</span> <br>
-            Start date: <span class="text-primary">{{ session.startDate|date('d-m-Y') }}.</span> <br>
-            End date: <span class="text-primary">{{ session.endDate|date('d-m-Y')  }}.</span> <br>
-            Training: <span class="text-primary">{{ session.training }}.</span> <br>
-            Available Places:  <span class="text-primary">{{ session.numberOfPlaces }}.</span> <br>
-        </div>
-        
-    </div>
-   
+    <div class="container">
+        <h1 class="my-5">Session details</h1>
+
+        <table class="table table-hover text-center">
+            <thead>
+                <tr class="table-primary">
+                    <th scope="col">Session</th>
+                    <th scope="col">Training</th>
+                    <th scope="col">Start date</th>
+                    <th scope="col">End date</th>
+                    <th scope="col">Number of places</th>
+                    <th scope="col">reserved places</th>
+                    <th scope="col">Remaining places</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr class="table-light">
+                    <td> <strong>{{ session }}</strong></td>
+                    <td>{{ session.training }}</td>
+                    <td>{{ session.startDate|date("m/d/Y") }}</td>
+                    <td>{{ session.endDate|date("m/d/Y") }}</td>
+                    <td class="text-primary">{{ session.numberOfPlaces }}</td>
+                    <td class="text-success">{{ students|length}}</td>
+                    <td class="text-danger"> {{ session.numberOfPlaces - students|length }}</td>
+                    <td><a href="{{ path('edit_session', {'id':session.id}) }}" class="btn btn-info  rounded-pill px-2">Edit</a></td>
+                    <td><a href="{{ path('delete_session', {'id':session.id}) }}" class="btn btn-danger  rounded-pill px-2">Delete</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Students registered for this session</h2>
+     
+            <a href="{{ path('addStudent_student_session', {'id':session.id}) }}" class="btn btn-success m-3 rounded-pill">Add student</a> <br>
+       
+
+        <table class="table table-hover">>
+            <thead>
+                <tr class="table-primary">
+                <th scope="col">#</th>
+                <th scope="col">Lastname</th>
+                <th scope="col">Firstname</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone number</th>
+                <th scope="col">Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for student in students %}
+                <tr class="table-light">
+                <th scope="row">{{ loop.index}}</th>
+                <td>{{ student.lastname }}</td>
+                <td>{{ student.firstname }}</td>
+                <td>{{ student.email }}</td>
+                <td>{{ student.phoneNumber }}</td>
+                <td><a href="{{ path('remove_student_session', {'sessionId':session.id, 'studentId':student.id} ) }}" class="btn btn-danger rounded-pill px-2">Remove</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     
+    </div>
+ 
 {% endblock body %}
