@@ -33,7 +33,7 @@ class Session
     #[ORM\JoinColumn(nullable: false)]
     private ?Training $training = null;
 
-    #[ORM\OneToMany(mappedBy: 'session', targetEntity: Program::class, cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: Program::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['modules' => 'ASC'])]
     private Collection $programs;
 

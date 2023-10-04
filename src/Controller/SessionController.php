@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Session;
 use App\Form\SessionType;
 use App\Repository\SessionRepository;
+use App\Repository\TrainingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,27 +24,33 @@ class SessionController extends AbstractController
         ]);
     }
 
-    #[Route('/session/new', name: 'new_session')]
+    #[Route('/session/new/{trainingId}', name: 'new_session')]
     #[Route('/session/{id}/edit', name: 'edit_session')]
-    public function new_edit(Request $request, Session $session = null, EntityManagerInterface $entityManager) : Response
+    public function new_edit($trainingId, Request $request, Session $session = null, EntityManagerInterface $entityManager, TrainingRepository $trainingRepository) : Response
     {
         if(!$session){
             $session = new Session(); 
         }
         $form = $this->createForm(SessionType::class,$session);
-
+        
+        
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $session = $form->getData();
+            //a ce niveau le champs training du formulaire est vide 
+            // on va recupérer le training correspondant en bd et le set dans l'entité session 
+            $training = $trainingRepository->find($trainingId);
+            $session->setTraining($training);
 
             $entityManager->persist($session);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_session');
+            return $this->redirectToRoute('show_training', ['id' => $id]);
         }
 
-        return $this->render('session/new.html.twig',[
+        return $this->render('session/new_edit.html.twig',[
             'form' => $form,
             'sessionId' => $session->getId()
         ]);
@@ -52,10 +59,13 @@ class SessionController extends AbstractController
     #[Route('/session/{id}/delete', name: 'delete_session')]
     public function delete(Session $session, EntityManagerInterface $entityManager) : Response
     {   
+        // On recupere l'id Training de la session à supprimer pour une bonne redirection 
+        $training = $session->getTraining();
+
         $entityManager->remove($session);
         $entityManager->flush();
         
-        return $this->redirectToRoute('app_session');
+        return $this->redirectToRoute('show_training', ['id' => $training->getId() ]);
     }
 
     #[Route('/session/{id}', name: 'show_session')]

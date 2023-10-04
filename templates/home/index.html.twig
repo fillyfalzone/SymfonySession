@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Welcome to Exellence trainig{% endblock %}
+
+
+{% block body %}
+    <section class="container pt-5">
+        <h1 class="text-center">Excellence Training</h1>
+        <p class="text-center">welcome to Excellence formation, the school that guarantees you success</p>
+        <div class="d-flex justify-content-around py-5  px-1 flex-wrap gap-4">
+            {% for training in trainings %}
+                <a href="{{ path('show_training', {'id':training.id})}}"><span class="badge bg-primary fs-4 ">{{training.name}}</span></a>
+            {% endfor %}
+        </div>
+        
+    </section>
+{% endblock %}

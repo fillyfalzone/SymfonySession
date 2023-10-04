@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Training;
 use App\Form\TrainingType;
+use App\Repository\SessionRepository;
 use App\Repository\TrainingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,12 +24,14 @@ class TrainingController extends AbstractController
         ]);
     }
 
+    #[Route('/training/{id}/edit', name: 'edit_training')]
     #[Route('/training/new', name: 'new_training')]
-    public function new(Training $training = null, Request $Request, EntityManagerInterface $entityManager ): Response
+    public function new_edit(Training $training = null, Request $Request, EntityManagerInterface $entityManager ): Response
     {   
-        // Create a new training object
-        $training = new Training();
-
+        if(!$training){
+            $training = new Training();
+        }
+       
         // Create form by TrainingType to add new training 
         $form = $this->createForm(TrainingType::class, $training);
         // manage form in relation with de enter request 
@@ -47,31 +50,32 @@ class TrainingController extends AbstractController
             return $this->redirectToRoute('app_training');
         }
         
-        return $this->render('training/new.html.twig', [
-            'formAddTraining' => $form
+        return $this->render('training/new_edit.html.twig', [
+            'form' => $form,
+            'trainingId' => $training->getId()
         ]);
     }
 
-    #[Route('/training/{id}/edit', name: 'edit_training')]
-    public function edit(Training $training, EntityManagerInterface $entityManager, Request $request) : Response
-    {
-        $form = $this->createForm(Training::class, $training);
-        $form->handleRequest($request);
+    // #[Route('/training/{id}/edit', name: 'edit_training')]
+    // public function edit(Training $training, EntityManagerInterface $entityManager, Request $request) : Response
+    // {
+    //     $form = $this->createForm(TrainingType::class, $training);
+    //     $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
+    //     if ($form->isSubmitted() && $form->isValid()){
 
-            $training = $form->getData();
+    //         $training = $form->getData();
 
-            $entityManager->persist($training);
-            $entityManager->flush();
+    //         $entityManager->persist($training);
+    //         $entityManager->flush();
 
-            return $this->redirectToRoute('app_training');
-        }
+    //         return $this->redirectToRoute('app_training');
+    //     }
 
-        return $this->render('training/edit.html.twig', [
-            'formEditTraining' => $form
-        ]);
-    }
+    //     return $this->render('training/edit.html.twig', [
+    //         'formEditTraining' => $form
+    //     ]);
+    // }
 
     #[Route('/training/{id}/delete', name: 'delete_training')]
     public function delete(Training $training, EntityManagerInterface $entityManager) : Response 
@@ -79,15 +83,17 @@ class TrainingController extends AbstractController
         $entityManager->remove($training);
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_trainig');
+        return $this->redirectToRoute('app_training');
     }
 
     #[Route('/training/{id}', name: 'show_training')]
-    public function show(Training $training) : Response
+    public function show($id, Training $training, SessionRepository $sessionRepository ) : Response
     {   
+        $sessions = $sessionRepository->findBy(['training' => $id], ['name' => 'ASC']);
 
         return $this->render('training/show.html.twig', [
-            'training' => $training
+            'training' => $training,
+            'sessions' => $sessions
         ]);
     }
 }

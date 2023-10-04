@@ -2,11 +2,41 @@
 {% block title %}Training details {% endblock %}
 
 {% block body %}
-    <div class="container text-center">
-        <h1 class="m-5">Training details</h1>
-        <div class="fs-4">
-            Name : <span class="text-primary"><a href="{{ path('app_training')}}">{{ training.name }}.</a></span>
-        </div>
+    <div class="container">
+        <h1 class="m-5 text-primary text-center ">{{ training.name }}</h1>
+
+        <a href="{{ path('new_session', {'trainingId':training.id})}}" class="btn btn-success fs-4 my-3 rounded-pill">Add Session</a>
+      
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-primary">
+                    <th scope="col">Session</th>
+                    <th scope="col">Start date</th>
+                    <th scope="col">End date</th>
+                    <th scope="col">Number of places</th>
+                    <th scope="col">reserved places</th>
+                    <th scope="col">Remaining places</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            {% for session in sessions %}
+
+                <tr class="table-light">
+                    <td><a href="{{ path('show_session', {'id':session.id})}}" class=" fs-4 " class=""> {{ session }} </a></td>
+                    <td>{{ session.startDate|date("m/d/Y") }}</td>
+                    <td>{{ session.endDate|date("m/d/Y") }}</td>
+                    <td>{{ session.numberOfPlaces }}</td>
+                    <td>Column content</td>
+                    <td>Column content</td>
+                    <td><a href="{{ path('edit_session', {'id':session.id}) }}" class="btn btn-info m-2">Edit</a></td>
+                    <td><a href="{{ path('delete_session', {'id':session.id}) }}" class="btn btn-danger m-2">Delete</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
         
     </div>
     

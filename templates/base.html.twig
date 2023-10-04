@@ -6,29 +6,58 @@
 
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {% block stylesheets %}
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+            <link href="https://bootswatch.com/5/cosmo/bootstrap.min.css" rel="stylesheet">
             <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         {% endblock %}  
     </head>
 
-    <header>
-        <div id="banner"></div>
-        <nav>
-            <ul>
-                <li><a href="">Home</a></li>
-                <li><a href="{{ path('app_session')}}">Sessions</a></li>
-                <li><a href="{{ path('app_training')}}">Trainings</a></li>
-                <li><a href="{{ path('app_student')}}">Students</a></li>
-                <li><a href="{{ path('app_category')}}">Categories</a></li>
-                <li><a href="{{ path('app_module')}}">Modules</a></li>
-                <li><a href="{{ path('app_program')}}">Programs</a></li>
-          
-              
-            </ul>
-        </nav>
-    </header>
-    <body>
+        <header>
+            <div id="banner"></div>
+       
+            <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+                <div class="container-fluid">
+                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div class="collapse navbar-collapse" id="navbarColor02">
+                    <ul class="navbar-nav me-auto fs-5 ">
+                      <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('app_home')}}">Home</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_session')}}">Sessions</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_training')}}">Trainings</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_student')}}">Students</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_category')}}">Categories</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_module')}}">Modules</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_program')}}">Programs</a>
+                      </li>
+                    </ul>
+                    <form class="d-flex">
+                      <input class="form-control me-sm-2" type="search" placeholder="Search" wfd-id="id1">
+                      <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                  </div>
+                </div>
+              </nav>
+        </header>
+        <body>
+           
         {% block body %}{% endblock %}
+
+        <footer class="bg-secondary text-center py-3 px-1">
+            <p class="text-light">Directed by Arnaud - copyrights 2023 -  <a href="https://elan-formation.fr/accueil" class="text-light" >ELAN FORMATION</a> Colmar</p>
+        </footer>
 
         {% block javascripts %}
             <script

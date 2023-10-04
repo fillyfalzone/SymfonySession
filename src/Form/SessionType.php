@@ -8,12 +8,13 @@ use App\Entity\Training;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class SessionType extends AbstractType
 {
@@ -34,11 +35,7 @@ class SessionType extends AbstractType
             ->add('numberOfPlaces', NumberType::class, [
                 'attr' => ['class' => 'form-control']
             ])
-            ->add('training', EntityType::class, [
-                'class' => Training::class,
-                'placeholder' => 'Select a training',
-                'attr' => ['class' => 'form-control']
-            ])
+            ->add('training', HiddenType::class)
             ->add('programs', CollectionType::class, [
                 'attr' => ['class' => 'form-control, m-2'],
                 // la collection attend l'élément quelle entrera dans le form, 
@@ -53,7 +50,7 @@ class SessionType extends AbstractType
                 
             ])
             ->add('Submit', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-success m-2']
+                'attr' => ['class' => 'btn btn-success my-3 mx-auto fs-4 rounded-pill']
             ])
         ;
     }

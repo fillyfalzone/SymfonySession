@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% if trainingId %}
+        edit training  
+    {% else %}
+        Add new training 
+    {% endif %}
+{% endblock %}
+
+
+{% block body %}
+    <div class="container my-5">
+        {% if trainingId %}
+            <h1 class="text-center">Edit training</h1>  
+        {% else %}
+            <h1 class="text-center">Add new training</h1>   
+        {% endif %}
+
+        {{ form_start(form) }}
+            <div class="row">
+                <div class="col-6">
+                    {{ form_row(form.name) }}
+                </div>
+            </div>
+            
+            {{ form_row(form.Submit) }}
+        {{ form_end(form) }}
+    </div>
+    
+{% endblock body %}

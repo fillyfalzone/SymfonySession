@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+a {
+    text-decoration: none;
+}
+
 /* Style pour le header */
 header {
     background-color: #333; /* Couleur de fond du header */
@@ -21,33 +25,3 @@ header {
     height: 150px; /* Hauteur de la bannière */
 }
 
-/* Style pour la navigation */
-nav {
-    background-color: #444; /* Couleur de fond de la navigation */
-}
-
-nav ul {
-    list-style: none; /* Supprimer les puces de la liste */
-    padding: 0;
-}
-
-nav ul li {
-    display: inline-block; /* Afficher les éléments de la liste en ligne */
-    margin-right: 10px; /* Marge à droite entre les éléments */
-}
-
-nav ul li:last-child {
-    margin-right: 0; /* Supprimer la marge à droite du dernier élément */
-}
-
-nav a {
-    text-decoration: none; /* Supprimer la soulignement des liens */
-    color: #fff; /* Couleur du texte des liens */
-    padding: 5px 10px; /* Espacement intérieur des liens */
-    transition: background-color 0.3s ease; /* Transition en douceur de la couleur de fond */
-}
-
-nav a:hover {
-    background-color: #555; /* Couleur de fond au survol */
-    border-radius: 5px; /* Coins arrondis au survol */
-}

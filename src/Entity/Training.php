@@ -18,7 +18,7 @@ class Training
     #[ORM\Column(length: 100)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'training', targetEntity: Session::class)]
+    #[ORM\OneToMany(mappedBy: 'training', cascade: ['persist', 'remove'], targetEntity: Session::class)]
     private Collection $sessions;
 
     public function __construct()
