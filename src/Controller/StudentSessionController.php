@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Session;
 use App\Entity\Student;
 
+use App\Entity\Training;
 use App\Form\StudentSessionType;
 use App\Repository\SessionRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,11 +24,11 @@ class StudentSessionController extends AbstractController
         ]);
     }
 
-    #[Route('/student/session/{id}', name: 'addStudent_student_session')]
-    public function addStudent($id, Request $request, SessionRepository $sessionRepository, EntityManagerInterface $entityManager): Response
+    #[Route('/student/session/{sessionId}', name: 'addStudent_student_session')]
+    public function addStudent($sessionId, Request $request, SessionRepository $sessionRepository, EntityManagerInterface $entityManager, Training $training = null, Session $session = null): Response
     {
         // Récupérez la session en fonction de l'ID
-        $session = $sessionRepository->find($id);
+        $session = $sessionRepository->find($sessionId);
         
 
         //  Vérifiez si la session existe
@@ -56,7 +57,9 @@ class StudentSessionController extends AbstractController
             $entityManager->flush();
 
             // Redirigez l'utilisateur vers une page de succès
-            return $this->redirectToRoute('show_session', ['id' => $id]);
+            $training = $session->getTraining();
+            $trainingId = $training->getId();
+            return $this->redirectToRoute('show_session', ['sessionId' => $sessionId, 'trainingId' => $trainingId] );
         }
 
         //  Affichez le formulaire dans la vue Twig
@@ -67,7 +70,7 @@ class StudentSessionController extends AbstractController
     }
 
     #[Route('/session/{sessionId}/student/{studentId}/remove', name: 'remove_student_session')]
-    public function remove($sessionId, $studentId, EntityManagerInterface $entityManager) : Response 
+    public function remove($sessionId, $studentId, EntityManagerInterface $entityManager, Training $training = null, Session $session = null) : Response 
     {
         $session = $entityManager->getRepository(Session::class)->find($sessionId);
         $student = $entityManager->getRepository(Student::class)->find($studentId);
@@ -82,7 +85,9 @@ class StudentSessionController extends AbstractController
         $entityManager->flush();
 
         // Redirigez l'utilisateur vers une page de succès ou une autre page appropriée
-        return $this->redirectToRoute('show_session', ['id' => $sessionId ]);
+        $training = $session->getTraining();
+            $trainingId = $training->getId();
+        return $this->redirectToRoute('show_session', ['sessionId' => $sessionId, 'trainingId' => $trainingId] );
     }
 
 

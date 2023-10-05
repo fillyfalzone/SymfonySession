@@ -27,20 +27,42 @@
                     <td>{{ session.startDate|date("m/d/Y") }}</td>
                     <td>{{ session.endDate|date("m/d/Y") }}</td>
                     <td class="text-primary">{{ session.numberOfPlaces }}</td>
-                    <td class="text-success">{{ students|length}}</td>
-                    <td class="text-danger"> {{ session.numberOfPlaces - students|length }}</td>
-                    <td><a href="{{ path('edit_session', {'id':session.id}) }}" class="btn btn-info  rounded-pill px-2">Edit</a></td>
-                    <td><a href="{{ path('delete_session', {'id':session.id}) }}" class="btn btn-danger  rounded-pill px-2">Delete</a></td>
+                    <td class="text-success">{{ studentsInSession|length}}</td>
+                    <td class="text-danger"> {{ session.numberOfPlaces - studentsInSession|length }}</td>
+                    <td><a href="{{ path('edit_session', {'sessionId':session.id, 'trainingId':trainingId}) }}" class="btn btn-info  rounded-pill px-2">Edit</a></td>
+                    <td><a href="{{ path('delete_session', {'sessionId':session.id, 'trainingId':trainingId}) }}" class="btn btn-danger  rounded-pill px-2">Delete</a></td>
                 </tr>
             </tbody>
         </table>
 
-        <h2>Students registered for this session</h2>
+        <h2>Programs of this session</h2>
+
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-primary">
+                <th scope="col">Moludes</th>
+                <th scope="col">Days</th>
+                </tr>
+            </thead>
+            <tbody>
+          
+
+            {% for program in programs %}
+                <tr class="table-light">
+                    {% for module in modules %}
+                    <td>{{ module }}</td>
+                    <td>{{ program.numberOfDays }}</td>  
+                    {% endfor %}
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Students registered in this session</h2>
      
-            <a href="{{ path('addStudent_student_session', {'id':session.id}) }}" class="btn btn-success m-3 rounded-pill">Add student</a> <br>
+            <a href="{{ path('addStudent_student_session', {'sessionId':session.id}) }}" class="btn btn-success m-3 rounded-pill">Add student</a> <br>
        
 
-        <table class="table table-hover">>
+        <table class="table table-hover">
             <thead>
                 <tr class="table-primary">
                 <th scope="col">#</th>
@@ -52,18 +74,20 @@
                 </tr>
             </thead>
             <tbody>
-            {% for student in students %}
+            {% for studentInSession in studentsInSession %}
                 <tr class="table-light">
                 <th scope="row">{{ loop.index}}</th>
-                <td>{{ student.lastname }}</td>
-                <td>{{ student.firstname }}</td>
-                <td>{{ student.email }}</td>
-                <td>{{ student.phoneNumber }}</td>
-                <td><a href="{{ path('remove_student_session', {'sessionId':session.id, 'studentId':student.id} ) }}" class="btn btn-danger rounded-pill px-2">Remove</a></td>
+                <td>{{ studentInSession.lastname }}</td>
+                <td>{{ studentInSession.firstname }}</td>
+                <td>{{ studentInSession.email }}</td>
+                <td>{{ studentInSession.phoneNumber }}</td>
+                <td><a href="{{ path('remove_student_session', {'sessionId':session.id, 'studentId':studentInSession.id} ) }}" class="btn btn-danger rounded-pill px-2">Remove</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+
+        <h2>Students unregistered in this session</h2>
     
     </div>
  

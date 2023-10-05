@@ -25,14 +25,14 @@
             {% for session in sessions %}
 
                 <tr class="table-light">
-                    <td><a href="{{ path('show_session', {'id':session.id})}}" class=" fs-4 " class=""> {{ session }} </a></td>
+                    <td><a href="{{ path('show_session', {'sessionId':session.id, 'trainingId':training.id}) }}" class=" fs-4 " class=""> {{ session }} </a></td>
                     <td>{{ session.startDate|date("m/d/Y") }}</td>
                     <td>{{ session.endDate|date("m/d/Y") }}</td>
                     <td>{{ session.numberOfPlaces }}</td>
                     <td>Column content</td>
                     <td>Column content</td>
-                    <td><a href="{{ path('edit_session', {'id':session.id}) }}" class="btn btn-info px-3 rounded-pill">Edit</a></td>
-                    <td><a href="{{ path('delete_session', {'id':session.id}) }}" class="btn btn-danger px-3 rounded-pill">Delete</a></td>
+                    <td><a href="{{ path('edit_session', {'sessionId':session.id, 'trainingId':training.id}) }}" class="btn btn-info px-3 rounded-pill">Edit</a></td>
+                    <td><a href="{{ path('delete_session', {'sessionId':session.id, 'trainingId':training.id}) }}" class="btn btn-danger px-3 rounded-pill">Delete</a></td>
                 </tr>
             {% endfor %}
             </tbody>
