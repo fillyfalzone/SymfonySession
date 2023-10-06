@@ -2,12 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Program;
 use App\Entity\Session;
-use App\Entity\Student;
 use App\Form\SessionType;
-use App\Repository\CategoryRepository;
-use App\Repository\ModuleRepository;
 use App\Repository\ProgramRepository;
 use App\Repository\SessionRepository;
 use App\Repository\StudentRepository;
@@ -88,7 +84,7 @@ class SessionController extends AbstractController
         *Show details of Session
     */
     #[Route('/training/{trainingId}/session/{sessionId}', name: 'show_session')]
-    public function show($trainingId, $sessionId, Session $session = null, SessionRepository $sessionRepository, ProgramRepository $programRepository, ModuleRepository $moduleRepository, CategoryRepository $categoryRepository) : Response
+    public function show($trainingId, $sessionId, Session $session = null, SessionRepository $sessionRepository, ProgramRepository $programRepository, StudentRepository $studentRepository) : Response
     {   
         
         $session = $sessionRepository->find($sessionId);
@@ -97,17 +93,12 @@ class SessionController extends AbstractController
         
         // on va recupérer les programmes (Modules, Categorie) de la session afficher. 
         $programs = $programRepository->findBy(['session' => $sessionId]);
+
+        // On va afficher les students qui ne sont pas de la session.
         
-        foreach ( $programs as $program) {
-            $moduleId =  $program->getModules();
-            $modules = $moduleRepository->findBy(['id' => $moduleId], ['category' => 'ASC']);
-        }
-
-
-
+        
         return $this->render('session/show.html.twig', [
             'session' => $session,
-            'modules' => $modules,
             'studentsInSession' => $studentsInSession,
             'programs' => $programs,
             'trainingId' => $trainingId

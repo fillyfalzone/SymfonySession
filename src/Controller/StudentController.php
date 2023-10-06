@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Session;
 use App\Entity\Student;
 use App\Form\StudentType;
 use App\Repository\StudentRepository;
