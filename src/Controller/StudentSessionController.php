@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Session;
 use App\Entity\Student;
-
 use App\Entity\Training;
 use App\Form\StudentSessionType;
 use App\Repository\SessionRepository;

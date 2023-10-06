@@ -101,7 +101,32 @@
             </tbody>
         </table>
 
-        <h2>Students unregistered in this session</h2>
+        <h2 class="text-danger">Students unregistered in this session</h2>
+
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-primary">
+                <th scope="col">#</th>
+                <th scope="col">Lastname</th>
+                <th scope="col">Firstname</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone number</th>
+                <th scope="col">Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for studentNotInSession in studentsNotInSession %}
+                <tr class="table-light">
+                <th scope="row">{{ loop.index}}</th>
+                <td>{{ studentNotInSession.lastname }}</td>
+                <td>{{ studentNotInSession.firstname }}</td>
+                <td>{{ studentNotInSession.email }}</td>
+                <td>{{ studentNotInSession.phoneNumber }}</td>
+                <td><a href=" {{ path('addStudentInSession_session', {'trainingId':trainingId, 'sessionId':session.id, 'studentId':studentNotInSession.id} ) }} " class="btn btn-success rounded-pill px-2">Add</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     
     </div>
  

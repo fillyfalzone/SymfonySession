@@ -1,23 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} 
-    {% if sessionId %}
-            Edit session
-        {% else %}
-            Add a new session
-        {% endif %} 
-{% endblock title %}
+{% block title %} Add a new session {% endblock title %}
 
 {% block body %}
     <div class="container p-5">
 
-        {% if sessionId %}
-            <h1> Edit session</h1>
-        {% else %}
-            <h1>Add a new session</h1>
-        {% endif %}
-            
-
+        <h1>Add a new session</h1>
+      
         {{ form_start(form) }}
             <div class="row">
                 <div class="col-sm">
