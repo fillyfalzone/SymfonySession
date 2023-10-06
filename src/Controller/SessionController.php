@@ -70,7 +70,7 @@ class SessionController extends AbstractController
     */
 
     #[Route('/training/{trainingId}/session/{sessionId}/edit', name: 'edit_session')]
-    public function edit($trainingId, Request $request, Session $session, EntityManagerInterface $entityManager, TrainingRepository $trainingRepository, SessionRepository $sessionRepository) : Response
+    public function edit($trainingId, $sessionId, Request $request, Session $session = null, EntityManagerInterface $entityManager, TrainingRepository $trainingRepository, SessionRepository $sessionRepository) : Response
     {
         $session = $sessionRepository->find($sessionId);
 
