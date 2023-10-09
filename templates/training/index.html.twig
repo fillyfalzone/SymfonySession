@@ -11,10 +11,12 @@
         <table class="table table-hover">
             <thead>
                 <tr class="table-primary">
-                <th scope="col">#</th>
-                <th scope="col">Training</th>
-                <th scope="col">Edit</th>
-                <th scope="col">Delete</th>
+                    <th scope="col">#</th>
+                    <th scope="col">Training</th>
+                    {% if is_granted('ROLE_ADMIN')  %}
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -22,8 +24,12 @@
                 <tr class="table-light">
                 <th scope="row">{{ loop.index}}</th>
                 <td> <a href="{{ path('show_training', {'id':training.id}) }}">{{ training.name }}</a></td>
-                <td>  <a href="{{ path('edit_training', {'id':training.id}) }}" class="btn btn-info px-2 rounded-pill"> Edit</a></td>
-                <td><a href="{{ path('delete_training', {'id':training.id}) }}" class="btn btn-danger px-2 rounded-pill">Delete</a></td>
+
+                {% if is_granted('ROLE_ADMIN')  %}
+                    <td>  <a href="{{ path('edit_training', {'id':training.id}) }}" class="btn btn-info px-2 rounded-pill"> Edit</a></td>
+                    <td><a href="{{ path('delete_training', {'id':training.id}) }}" class="btn btn-danger px-2 rounded-pill">Delete</a></td>
+                {% endif %}
+
                 </tr>
             {% endfor %}
             </tbody>

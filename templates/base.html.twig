@@ -11,46 +11,61 @@
         {% endblock %}  
     </head>
 
-        <header>
-            <div id="banner"></div>
        
-            <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
-                <div class="container-fluid">
-                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                  </button>
-                  <div class="collapse navbar-collapse" id="navbarColor02">
-                    <ul class="navbar-nav me-auto fs-5 ">
-                      <li class="nav-item">
-                        <a class="nav-link active" href="{{ path('app_home')}}">Home</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_training')}}">Trainings</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_student')}}">Students</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_category')}}">Categories</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_module')}}">Modules</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_program')}}">Programs</a>
-                      </li>
-                    </ul>
-                    <form class="d-flex">
-                      <input class="form-control me-sm-2" type="search" placeholder="Search" wfd-id="id1">
-                      <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-                    </form>
-                  </div>
-                </div>
-              </nav>
-        </header>
-        <body>
+    <body>
+      <header>
+        <div id="banner">
+          <div class="container auth">
+            {% if app.user %}
+              <a href="{{ path('app_logout')}}" class="text-danger fw-bold btn-light">Logout</a>
+              <span> Wellcome {{app.user.pseudo}} </span>
+            {% else %}
+              <a href="{{ path('app_login') }}" class="text-primary fw-bold btn-light">Login</a>
+              <a href=" {{ path('app_register') }}" class="text-danger fw-bold btn-light">Register</a>
+            {% endif %}
+          </div>
+         
+
+        </div>
+    
+        <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+            <div class="container-fluid">
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarColor02">
+                <ul class="navbar-nav me-auto fs-5 ">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="{{ path('app_home')}}">Home</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_training')}}">Trainings</a>
+                  </li>
+                  {% if is_granted('ROLE_ADMIN')  %}
+                    <li class="nav-item">
+                      <a class="nav-link" href="{{ path('app_student')}}">Students</a>
+                    </li>
+                  {% endif %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_category')}}">Categories</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_module')}}">Modules</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_program')}}">Programs</a>
+                  </li>
+                </ul>
+                <form class="d-flex">
+                  <input class="form-control me-sm-2" type="search" placeholder="Search" wfd-id="id1">
+                  <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                </form>
+              </div>
+            </div>
+          </nav>
+      </header>
            
-        {% block body %}{% endblock %}
+      {% block body %}{% endblock %}
 
         <footer class="bg-secondary text-center py-3 px-1">
             <p class="text-light">Directed by Arnaud - copyrights 2023 -  <a href="https://elan-formation.fr/accueil" class="text-light" >ELAN FORMATION</a> Colmar</p>

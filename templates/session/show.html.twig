@@ -15,8 +15,10 @@
                     <th scope="col">Number of places</th>
                     <th scope="col">reserved places</th>
                     <th scope="col">Remaining places</th>
-                    <th scope="col">Edit</th>
-                    <th scope="col">Delete</th>
+                    {% if is_granted('ROLE_ADMIN')  %}
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                    {% endif %}
                 </tr>
             </thead>
 
@@ -29,8 +31,10 @@
                     <td class="text-primary">{{ session.numberOfPlaces }}</td>
                     <td class="text-success">{{ studentsInSession|length}}</td>
                     <td class="text-danger"> {{ session.numberOfPlaces - studentsInSession|length }}</td>
-                    <td><a href="{{ path('edit_session', {'sessionId':session.id, 'trainingId':trainingId}) }}" class="btn btn-info  rounded-pill px-2">Edit</a></td>
-                    <td><a href="{{ path('delete_session', {'sessionId':session.id, 'trainingId':trainingId}) }}" class="btn btn-danger  rounded-pill px-2">Delete</a></td>
+                    {% if is_granted('ROLE_ADMIN')  %}
+                        <td><a href="{{ path('edit_session', {'sessionId':session.id, 'trainingId':trainingId}) }}" class="btn btn-info  rounded-pill px-2">Edit</a></td>
+                        <td><a href="{{ path('delete_session', {'sessionId':session.id, 'trainingId':trainingId}) }}" class="btn btn-danger  rounded-pill px-2">Delete</a></td>
+                    {% endif %}
                 </tr>
             </tbody>
         </table>
@@ -71,62 +75,76 @@
             </tbody>
         </table>
 
-        <h2>Students registered in this session</h2>
-     
-            <a href="{{ path('addStudent_student_session', {'sessionId':session.id}) }}" class="btn btn-success m-3 rounded-pill">Add student</a> <br>
-       
+        {% if is_granted('ROLE_ADMIN')  %}
 
-        <table class="table table-hover">
-            <thead>
-                <tr class="table-primary">
-                <th scope="col">#</th>
-                <th scope="col">Lastname</th>
-                <th scope="col">Firstname</th>
-                <th scope="col">Email</th>
-                <th scope="col">Phone number</th>
-                <th scope="col">Remove</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for studentInSession in studentsInSession %}
-                <tr class="table-light">
-                <th scope="row">{{ loop.index}}</th>
-                <td>{{ studentInSession.lastname }}</td>
-                <td>{{ studentInSession.firstname }}</td>
-                <td>{{ studentInSession.email }}</td>
-                <td>{{ studentInSession.phoneNumber }}</td>
-                <td><a href="{{ path('remove_student_session', {'sessionId':session.id, 'studentId':studentInSession.id} ) }}" class="btn btn-danger rounded-pill px-2">Remove</a></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="studentsList">
+            <div>
+                <h2>Students registered in this session</h2>
+        
+                <a href="{{ path('addStudent_student_session', {'sessionId':session.id}) }}" class="btn btn-success m-3 rounded-pill">Add student</a> <br>
+        
 
-        <h2 class="text-danger">Students unregistered in this session</h2>
+            <table class="table table-hover">
+                <thead>
+                    <tr class="table-primary">
+                    <th scope="col">#</th>
+                    <th scope="col">Lastname</th>
+                    <th scope="col">Firstname</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone number</th>
+                    <th scope="col">Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for studentInSession in studentsInSession %}
+                    <tr class="table-light">
+                    <th scope="row">{{ loop.index}}</th>
+                    <td>{{ studentInSession.lastname }}</td>
+                    <td>{{ studentInSession.firstname }}</td>
+                    <td>{{ studentInSession.email }}</td>
+                    <td>{{ studentInSession.phoneNumber }}</td>
+                    <td><a href="{{ path('remove_student_session', {'sessionId':session.id, 'studentId':studentInSession.id} ) }}" class="btn btn-danger rounded-pill px-2">Remove</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            </div>
+            
+            <div>
+                <h2 class="text-danger">Students unregistered in this session</h2>
 
-        <table class="table table-hover">
-            <thead>
-                <tr class="table-primary">
-                <th scope="col">#</th>
-                <th scope="col">Lastname</th>
-                <th scope="col">Firstname</th>
-                <th scope="col">Email</th>
-                <th scope="col">Phone number</th>
-                <th scope="col">Remove</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for studentNotInSession in studentsNotInSession %}
-                <tr class="table-light">
-                <th scope="row">{{ loop.index}}</th>
-                <td>{{ studentNotInSession.lastname }}</td>
-                <td>{{ studentNotInSession.firstname }}</td>
-                <td>{{ studentNotInSession.email }}</td>
-                <td>{{ studentNotInSession.phoneNumber }}</td>
-                <td><a href=" {{ path('addStudentInSession_session', {'trainingId':trainingId, 'sessionId':session.id, 'studentId':studentNotInSession.id} ) }} " class="btn btn-success rounded-pill px-2">Add</a></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="table-primary">
+                        <th scope="col">#</th>
+                        <th scope="col">Lastname</th>
+                        <th scope="col">Firstname</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Phone number</th>
+                        <th scope="col">Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for studentNotInSession in studentsNotInSession %}
+                        <tr class="table-light">
+                        <th scope="row">{{ loop.index}}</th>
+                        <td>{{ studentNotInSession.lastname }}</td>
+                        <td>{{ studentNotInSession.firstname }}</td>
+                        <td>{{ studentNotInSession.email }}</td>
+                        <td>{{ studentNotInSession.phoneNumber }}</td>
+                        <td><a href=" {{ path('addStudentInSession_session', {'trainingId':trainingId, 'sessionId':session.id, 'studentId':studentNotInSession.id} ) }} " class="btn btn-success rounded-pill px-2">Add</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+                    
+           
+
+         
+        {% endif %}
+
     
     </div>
  

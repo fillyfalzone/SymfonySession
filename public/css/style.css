@@ -13,7 +13,15 @@ header {
     background-color: #333; /* Couleur de fond du header */
     color: #fff; /* Couleur du texte */
     padding: 10px 0; /* Espacement intérieur du header */
-    text-align: center; /* Alignement du texte au centre */
+     /* Alignement du texte au centre */
+}
+.auth {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.auth a:hover {
+    text-decoration: underline;
 }
 
 /* Style pour la bannière (image ou contenu) */
@@ -26,6 +34,13 @@ header {
 }
 
 
+/*Students register or not in session*/
+.studentsList {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
 /*Student styling*/
 
 /*student index.html.twig*/
@@ -44,3 +59,7 @@ header {
     height: 30px;
     background: url(../img/avatar.png) center center / cover no-repeat;
 }
+
+
+
+

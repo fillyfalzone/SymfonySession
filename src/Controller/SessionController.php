@@ -70,23 +70,20 @@ class SessionController extends AbstractController
     */
 
     #[Route('/training/{trainingId}/session/{sessionId}/edit', name: 'edit_session')]
-    public function edit($trainingId, $sessionId, Request $request, Session $session = null, EntityManagerInterface $entityManager, TrainingRepository $trainingRepository, SessionRepository $sessionRepository) : Response
+    public function edit(int $trainingId, int $sessionId, Request $request, EntityManagerInterface $entityManager, TrainingRepository $trainingRepository, SessionRepository $sessionRepository) : Response
     {
         $session = $sessionRepository->find($sessionId);
-
+       
         $form = $this->createForm(SessionType::class,$session);
+        dd($form);
         $form->handleRequest($request);
+       
        
         // On souhaite avoir l'id de trainins 
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+         
             $session = $form->getData();
-           
-            //a ce niveau le champs training du formulaire est vide 
-            // on va recupérer le training correspondant en bd et le set dans l'entité session 
-            $training = $trainingRepository->find($trainingId);
-            $session->setTraining($training);
 
             $entityManager->persist($session);
             $entityManager->flush();
@@ -95,10 +92,12 @@ class SessionController extends AbstractController
         }
 
         return $this->render('session/edit.html.twig',[
-            'form' => $form,
+            'form' => $form->createView(),
             'sessionId' => $trainingId
         ]);
     }
+
+    
     /*
         *Delete session
     */

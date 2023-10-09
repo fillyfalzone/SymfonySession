@@ -3,43 +3,5 @@
 {% block title %}Our sessions{% endblock %}
 
 {% block body %}
-    <div class="container my-5">
-        <h1 class="text-center">OUR SESSIONS</h1>
-
-        <a href="{{ path('new_session')}}" class="btn btn-success m-2">Add a new session</a> <br>
-
-        <table class="table table-hover">
-            <thead>
-                <tr class="table-primary">
-                    <th scope="col">Session</th>
-                    <th scope="col">Start date</th>
-                    <th scope="col">End date</th>
-                    <th scope="col">Trainig</th>
-                    <th scope="col">Number of places</th>
-                    <th scope="col">reserved places</th>
-                    <th scope="col">Remaining places</th>
-                    <th scope="col">Edit</th>
-                    <th scope="col">Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-                
-            {% for session in sessions %}
-
-                <tr class="table-light">
-                    <td><a href="{{ path('show_session', {'id':session.id})}}" class=" fs-4 " class=""> {{ session }} </a></td>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                    <td><a href="{{ path('edit_session', {'id':session.id}) }}" class="btn btn-info m-2">Edit</a></td>
-                    <td><a href="{{ path('delete_session', {'id':session.id}) }}" class="btn btn-danger m-2">Delete</a></td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-
-    </div>
+  
 {% endblock %}

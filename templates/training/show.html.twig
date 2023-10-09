@@ -16,8 +16,10 @@
                     <th scope="col">Number of places</th>
                     <th scope="col">reserved places</th>
                     <th scope="col">Remaining places</th>
-                    <th scope="col">Edit</th>
-                    <th scope="col">Delete</th>
+                    {% if is_granted('ROLE_ADMIN')  %}
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -31,8 +33,10 @@
                     <td>{{ session.numberOfPlaces }}</td>
                     <td>Column content</td>
                     <td>Column content</td>
-                    <td><a href="{{ path('edit_session', {'sessionId':session.id, 'trainingId':training.id}) }}" class="btn btn-info px-3 rounded-pill">Edit</a></td>
-                    <td><a href="{{ path('delete_session', {'sessionId':session.id, 'trainingId':training.id}) }}" class="btn btn-danger px-3 rounded-pill">Delete</a></td>
+                    {% if is_granted('ROLE_ADMIN')  %}
+                        <td><a href="{{ path('edit_session', {'sessionId':session.id, 'trainingId':training.id}) }}" class="btn btn-info px-3 rounded-pill">Edit</a></td>
+                        <td><a href="{{ path('delete_session', {'sessionId':session.id, 'trainingId':training.id}) }}" class="btn btn-danger px-3 rounded-pill">Delete</a></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
             </tbody>
