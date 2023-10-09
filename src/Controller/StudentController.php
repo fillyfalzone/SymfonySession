@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class StudentController extends AbstractController
 {
-    #[Route('/student', name: 'app_student')]
+    #[Route('admin/student', name: 'app_student')]
     public function index(StudentRepository $studentRepository): Response
     {   
         $students = $studentRepository->findBy([], ['lastname' => 'ASC']);
@@ -23,8 +23,8 @@ class StudentController extends AbstractController
         ]);
     }
 
-    #[Route('/student/{id}/edit', name: 'edit_student')]
-    #[Route('/student/new', name: 'new_student')]
+    #[Route('admin/student/{id}/edit', name: 'edit_student')]
+    #[Route('admin/student/new', name: 'new_student')]
     public function new_edit(Student $student = null, Request $request,EntityManagerInterface $entityManager): Response
     {   
         if(empty($student)) {
@@ -51,7 +51,7 @@ class StudentController extends AbstractController
         ]);
     }
 
-    #[Route('/student/{id}/delete', name: 'delete_student')]
+    #[Route('admin/student/{id}/delete', name: 'delete_student')]
     public function delete(Student $student, EntityManagerInterface $entityManager) : Response
     {   
         $entityManager->remove($student);
@@ -60,7 +60,7 @@ class StudentController extends AbstractController
         return $this->redirectToRoute('app_student');
     }
 
-    #[Route('/student/{id}', name: 'show_student')]
+    #[Route('admin/student/{id}', name: 'show_student')]
     public function show(Student $student) : Response
     {
         $sessions = $student->getSessions();

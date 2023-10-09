@@ -5,16 +5,20 @@
 {% block body %}
     <div class="container">
         <h1 class="my-4">Modules list</h1>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('new_module')}}" class="btn btn-success m-2 rounded-pill">Add a new module</a> <br>
+        {% endif %}
 
-        <a href="{{ path('new_module')}}" class="btn btn-success m-2 rounded-pill">Add a new module</a> <br>
-
-        <table class="table table-hover">
+        <table class="table table-hover d-inline-block">
             <thead>
                 <tr class="table-primary">
                 <th scope="col">#</th>
                 <th scope="col">Modules</th>
-                <th scope="col">Edit</th>
-                <th scope="col">Delete</th>
+                
+                {% if is_granted('ROLE_ADMIN') %}
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                {% endif %} 
                 </tr>
             </thead>
             <tbody>
@@ -22,8 +26,10 @@
                 <tr class="table-light">
                 <th scope="row">{{ loop.index}}</th>
                 <td><a href="{{ path('show_module', {'id':module.id}) }}" class="fs-4" >{{ module.name }}</a></td>
-                <td> <a href="{{ path('edit_module',  {'id':module.id}) }}" class="btn btn-info px-2 rounded-pill">Edit</a></td>
-                <td><a href="{{ path('delete_module',  {'id':module.id}) }}" class="btn btn-danger px-2 rounded-pill">Delete</a></td>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <td> <a href="{{ path('edit_module',  {'id':module.id}) }}" class="btn btn-info px-2 rounded-pill">Edit</a></td>
+                    <td><a href="{{ path('delete_module',  {'id':module.id}) }}" class="btn btn-danger px-2 rounded-pill">Delete</a></td>
+                {% endif %} 
                 </tr>
             {% endfor %}
             </tbody>

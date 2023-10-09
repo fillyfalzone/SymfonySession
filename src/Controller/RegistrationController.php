@@ -18,6 +18,8 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
+use function PHPUnit\Framework\isEmpty;
+
 class RegistrationController extends AbstractController
 {
     private EmailVerifier $emailVerifier;
@@ -27,48 +29,60 @@ class RegistrationController extends AbstractController
         $this->emailVerifier = $emailVerifier;
     }
 
+
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AppAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
-    {
+    {   
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
+    
+            // if (empty($form['honeyPot'])) {
 
-            $entityManager->persist($user);
-            $entityManager->flush();
+                
+                 // encode the plain password
+                 $user->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $user,
+                        $form->get('plainPassword')->getData()
+                    )
+                );
 
-            $flashMessage = $this->addFlash('success', 'registration successful');
+                $entityManager->persist($user);
+                $entityManager->flush();
 
-            // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+                
+                // generate a signed url and email it to the user
+                $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
-                    ->from(new Address('admin@exemple.com', 'admin Site Session'))
-                    ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
-            );
-           
-            // do anything else you need here, like send an email
+                ->from(new Address('admin@exemple.com', 'admin Site Session'))
+                ->to($user->getEmail())
+                ->subject('Please Confirm your Email')
+                ->htmlTemplate('registration/confirmation_email.html.twig')
+                );
 
-            return $userAuthenticator->authenticateUser(
-                $user,
-                $authenticator,
-                $request
-            );
-        }
+            
+                $this->addFlash('success', 'registration successful');
 
-        return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
-        ]);
+                // do anything else you need here, like send an email
+
+                return $userAuthenticator->authenticateUser(
+                    $user,
+                    $authenticator,
+                    $request
+                );
+
+            // } else {
+            //     $this->addFlash('danger', 'Are you a bot? ');
+
+            //     return $this->redirectToRoute('app_register');
+            // }   
+        }   
+            return $this->render('registration/register.html.twig', [
+                'registrationForm' => $form->createView(),
+            ]);
     }
 
     #[Route('/verify/email', name: 'app_verify_email')]

@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Session;
-use App\Entity\Student;
 use App\Form\SessionType;
 use App\Repository\ProgramRepository;
 use App\Repository\SessionRepository;
@@ -70,12 +69,12 @@ class SessionController extends AbstractController
     */
 
     #[Route('/training/{trainingId}/session/{sessionId}/edit', name: 'edit_session')]
-    public function edit(int $trainingId, int $sessionId, Request $request, EntityManagerInterface $entityManager, TrainingRepository $trainingRepository, SessionRepository $sessionRepository) : Response
+    public function edit(int $trainingId, int $sessionId, Session $session=null, Request $request, EntityManagerInterface $entityManager, TrainingRepository $trainingRepository, SessionRepository $sessionRepository) : Response
     {
         $session = $sessionRepository->find($sessionId);
        
         $form = $this->createForm(SessionType::class,$session);
-        dd($form);
+       
         $form->handleRequest($request);
        
        
@@ -92,8 +91,9 @@ class SessionController extends AbstractController
         }
 
         return $this->render('session/edit.html.twig',[
-            'form' => $form->createView(),
-            'sessionId' => $trainingId
+            'form' => $form,
+            'sessionId' => $trainingId,
+            
         ]);
     }
 

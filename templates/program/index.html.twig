@@ -5,16 +5,21 @@
 {% block body %}
     <div class="container">
         <h1>Program list</h1>
-
-        <a href="{{ path('new_program')}}" class="btn btn-success m-2">Add new program</a> <br>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('new_program')}}" class="btn btn-success m-2">Add new program</a> <br>
+        {% endif %}
         <hr>
 
         {% for program in programs %}
         Session: {{ program.session}} <br>
         Modules: {{ program.modules}} <br>
         Number of days: {{ program.numberOfDays}} <br>
-        <a href="{{ path('edit_program', {'id':program.id}) }}" class="btn btn-info">Edit</a>
-        <a href="{{ path('delete_program', {'id':program.id}) }}" class="btn btn-danger">Delete</a>
+
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('edit_program', {'id':program.id}) }}" class="btn btn-info">Edit</a>
+            <a href="{{ path('delete_program', {'id':program.id}) }}" class="btn btn-danger">Delete</a>
+        {% endif %} 
+        
         <hr>
         {% endfor %}
     </div>

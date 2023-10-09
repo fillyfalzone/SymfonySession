@@ -56,26 +56,6 @@ class TrainingController extends AbstractController
         ]);
     }
 
-    // #[Route('/training/{id}/edit', name: 'edit_training')]
-    // public function edit(Training $training, EntityManagerInterface $entityManager, Request $request) : Response
-    // {
-    //     $form = $this->createForm(TrainingType::class, $training);
-    //     $form->handleRequest($request);
-
-    //     if ($form->isSubmitted() && $form->isValid()){
-
-    //         $training = $form->getData();
-
-    //         $entityManager->persist($training);
-    //         $entityManager->flush();
-
-    //         return $this->redirectToRoute('app_training');
-    //     }
-
-    //     return $this->render('training/edit.html.twig', [
-    //         'formEditTraining' => $form
-    //     ]);
-    // }
 
     #[Route('/training/{id}/delete', name: 'delete_training')]
     public function delete(Training $training, EntityManagerInterface $entityManager) : Response 

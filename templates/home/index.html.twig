@@ -4,6 +4,15 @@
 
 
 {% block body %}
+
+    {% set successFlash = app.session.flashbag.get('success') %}
+    {% if successFlash is not empty %}
+        <div class="alert alert-success">
+            {{ successFlash[0] }}
+        </div>
+    {% endif %}
+
+
     <section class="container pt-5">
         <h1 class="text-center text-danger ">Excellence Training</h1>
         <p class="text-center">welcome to Excellence formation, the school that guarantees you success</p>
