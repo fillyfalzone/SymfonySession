@@ -35,7 +35,7 @@ class SessionType extends AbstractType
             ->add('numberOfPlaces', NumberType::class, [
                 'attr' => ['class' => 'form-control']
             ])
-            ->add('training', HiddenType::class)
+    
             ->add('programs', CollectionType::class, [
                 'attr' => ['class' => 'form-control, m-2'],
                 // la collection attend l'élément quelle entrera dans le form, 

@@ -18,7 +18,6 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
-use function PHPUnit\Framework\isEmpty;
 
 class RegistrationController extends AbstractController
 {
@@ -38,11 +37,11 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-    
-            // if (empty($form['honeyPot'])) {
-
+          
+            // Vérifier si le champ honeyPot est vide
+            if (!$form->get('honeyPot')->getData()) {
                 
-                 // encode the plain password
+                // encode the plain password
                  $user->setPassword(
                     $userPasswordHasher->hashPassword(
                         $user,
@@ -72,13 +71,12 @@ class RegistrationController extends AbstractController
                     $user,
                     $authenticator,
                     $request
-                );
-
-            // } else {
-            //     $this->addFlash('danger', 'Are you a bot? ');
-
-            //     return $this->redirectToRoute('app_register');
-            // }   
+                ); 
+            } else {
+                // Le formulaire a été rempli par un robot, ignorer la soumission
+               
+                return $this->redirectToRoute('app_register'); // Redirigez vers une autre page ou effectuez une autre action appropriée
+            } 
         }   
             return $this->render('registration/register.html.twig', [
                 'registrationForm' => $form->createView(),
